@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: waitForMsgExample
+server:
+  port: 8082
+
+feign:
+  client:
+    config:
+      remoteRuntimeService:
+        url: "http://localhost:8080/engine-rest"
+      remoteRepositoryService:
+        url: "http://localhost:8080/engine-rest"
+
+pathtowatch: "G:/Temp/droplocation"
+
+logging:
+  level:
+    org.camunda.bpm.extension.rest.client.RuntimeServiceClient: DEBUG
+    org.camunda.bpm.extension.rest.client.RepositoryServiceClient: DEBUG

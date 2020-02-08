@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0mvbxaj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+  <bpmn:process id="WaitingForMsgDemo" name="Waiting For Message Demo" isExecutable="true">
+    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_175scx5" name="WaitMessage">
+      <bpmn:incoming>SequenceFlow_0neyhlc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ajh8eu</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_15qypyd" messageRef="Message_0mgzrbk" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:scriptTask id="Task_UpdateMsgRecStatus" name="Prepare to receive Message" scriptFormat="Javascript">
+      <bpmn:incoming>SequenceFlow_1tsz1qu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0neyhlc</bpmn:outgoing>
+      <bpmn:script>execution.setVariable("status","waiting for msg");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0neyhlc" sourceRef="Task_UpdateMsgRecStatus" targetRef="IntermediateThrowEvent_175scx5" />
+    <bpmn:sequenceFlow id="SequenceFlow_1tsz1qu" sourceRef="StartEvent_1" targetRef="Task_UpdateMsgRecStatus" />
+    <bpmn:endEvent id="EndEvent_0zodukp">
+      <bpmn:incoming>SequenceFlow_1adbvyp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0ajh8eu" sourceRef="IntermediateThrowEvent_175scx5" targetRef="ScriptTask_1w0x4n3" />
+    <bpmn:scriptTask id="ScriptTask_1w0x4n3" name="Got Message" scriptFormat="Javascript">
+      <bpmn:incoming>SequenceFlow_0ajh8eu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1adbvyp</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0m2qhpi</bpmn:outgoing>
+      <bpmn:script>execution.setVariable("status","Msg obtained");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1adbvyp" sourceRef="ScriptTask_1w0x4n3" targetRef="EndEvent_0zodukp" />
+    <bpmn:startEvent id="StartEvent_1" name="StartProcMessage">
+      <bpmn:outgoing>SequenceFlow_1tsz1qu</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0hgxx1v" messageRef="Message_0c6d8wb" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0m2qhpi" sourceRef="ScriptTask_1w0x4n3" targetRef="Task_externalTask" />
+    <bpmn:serviceTask id="Task_externalTask" name="externalTask" camunda:type="external" camunda:topic="demoExternalTask">
+      <bpmn:incoming>SequenceFlow_0m2qhpi</bpmn:incoming>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:message id="Message_0mgzrbk" name="WaitMessage" />
+  <bpmn:message id="Message_0c6d8wb" name="StartProcMessage" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="WaitingForMsgDemo">
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_0w9vf4z_di" bpmnElement="IntermediateThrowEvent_175scx5">
+        <dc:Bounds x="562" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="548" y="142" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_0txz3ns_di" bpmnElement="Task_UpdateMsgRecStatus">
+        <dc:Bounds x="370" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0neyhlc_di" bpmnElement="SequenceFlow_0neyhlc">
+        <di:waypoint x="470" y="117" />
+        <di:waypoint x="562" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1tsz1qu_di" bpmnElement="SequenceFlow_1tsz1qu">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="370" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0zodukp_di" bpmnElement="EndEvent_0zodukp">
+        <dc:Bounds x="1082" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ajh8eu_di" bpmnElement="SequenceFlow_0ajh8eu">
+        <di:waypoint x="598" y="117" />
+        <di:waypoint x="660" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_1w0x4n3_di" bpmnElement="ScriptTask_1w0x4n3">
+        <dc:Bounds x="660" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1adbvyp_di" bpmnElement="SequenceFlow_1adbvyp">
+        <di:waypoint x="760" y="117" />
+        <di:waypoint x="1082" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_00dc06b_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="142" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0m2qhpi_di" bpmnElement="SequenceFlow_0m2qhpi">
+        <di:waypoint x="760" y="117" />
+        <di:waypoint x="830" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1502r4e_di" bpmnElement="Task_externalTask">
+        <dc:Bounds x="830" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

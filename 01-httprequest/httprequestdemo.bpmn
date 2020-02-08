@@ -29,7 +29,9 @@ resp
       <bpmn:outgoing>SequenceFlow_0r6vct6</bpmn:outgoing>
       <bpmn:script>var productData=S(execution.getVariable("productData"));
 print(productData);
-productData.prop("cost",productData.prop("cost")*1.5);</bpmn:script>
+productData.prop("cost",productData.prop("cost")*1.5);
+
+execution.setVariable("productData",productData.toString());</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:serviceTask id="ServiceTask_0oe2xpo" name="Post new product detail">
       <bpmn:extensionElements>

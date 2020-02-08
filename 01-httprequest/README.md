@@ -42,8 +42,10 @@ __initializerJson.json__ content:
 
 ```
 
-### Start workflow instance:
+## Start workflow instance:
 
+
+### Start workflow
 ```
 POST http://localhost:8080/engine-rest/process-definition/key/Process_1bb4f0u/start
 
@@ -58,4 +60,33 @@ Body:
   },
  "businessKey" : "updateprod"
 }
+
+
+Response:
+
+{
+    "links": [
+        {
+            "method": "GET",
+            "href": "http://localhost:8080/engine-rest/process-instance/d9bda951-4a3c-11ea-bc2a-e09467594f30",
+            "rel": "self"
+        }
+    ],
+    "id": "d9bda951-4a3c-11ea-bc2a-e09467594f30",
+    "definitionId": "Process_1bb4f0u:13:d760a680-4a3c-11ea-bc2a-e09467594f30",
+    "businessKey": "updateprod",
+    "caseInstanceId": null,
+    "ended": true,
+    "suspended": false,
+    "tenantId": null
+}
 ```
+
+### Check workflow variables
+
+```
+GET http://localhost:8080/engine-rest/history/variable-instance?processInstanceIdIn=d9bda951-4a3c-11ea-bc2a-e09467594f30
+
+```
+
+> Note: Here d9bda951-4a3c-11ea-bc2a-e09467594f30 is the workflow instance id obtained as part of start workflow response.
